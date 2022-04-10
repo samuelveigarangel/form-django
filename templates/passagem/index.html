@@ -13,6 +13,11 @@
             {{field|add_class:'form-select'}}
             {% endif %}
         </div>
+        {% for error in field.errors %}
+        <section class="alert alert-danger" role="alert">
+            {{ field.errors }}
+        </section>
+        {% endfor %}
         {% endfor %}
         <input type="submit" value="Ok" class="btn btn-success">
     </form>

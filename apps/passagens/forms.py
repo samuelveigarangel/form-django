@@ -14,3 +14,10 @@ class PassagemForms(forms.Form):
     escolha_classe = forms.ChoiceField(label='Classe de vôo ', widget=forms.Select(), choices=classe_voo, initial='Primeira Classe')
     informacoes = forms.CharField(label='Observações', max_length=200, widget=forms.Textarea(), required=False)
     email = forms.EmailField(label='Email', max_length=150)
+
+    def clean_origem(self):
+        origem = self.cleaned_data.get('origem')
+        if any(char.isdigit() for char in origem):
+            raise forms.ValidationError('Origem inválida: Não incluir números')
+        else:
+            return origem
