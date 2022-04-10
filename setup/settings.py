@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     #Apps terceiros
     'tempus_dominus',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

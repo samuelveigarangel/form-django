@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+{% load widget_tweaks %}
+
     <form action="{% url 'consulta' %}" method="post">
         {% csrf_token %}
         {% for field in form.visible_fields %}
         <div class="form-group">
             <label for="{{field.id_for_label}}">{{field.label}}</label>
-            {{field}}
+            {% if field.name != 'escolha_classe' %}
+            {{field|add_class:'form-control'}}
+            {% else %}
+            {{field|add_class:'form-select'}}
+            {% endif %}
         </div>
         {% endfor %}
         <input type="submit" value="Ok" class="btn btn-success">
