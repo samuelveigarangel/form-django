@@ -6,8 +6,6 @@ class Passagem(models.Model):
     class Meta:
         app_label = 'passagens'
 
-
-
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
     data_ida = models.DateField()
