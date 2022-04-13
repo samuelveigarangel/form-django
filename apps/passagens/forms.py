@@ -1,7 +1,7 @@
 from django import forms
 from tempus_dominus.widgets import DatePicker
 from datetime import datetime
-from .validation import campo_tem_algum_numero, origem_destino_iguais
+from .validation import *
 
 class PassagemForms(forms.Form):
     origem = forms.CharField(label='Origem', max_length=100, )
@@ -18,11 +18,15 @@ class PassagemForms(forms.Form):
     def clean(self):
         origem = self.cleaned_data.get('origem')
         destino = self.cleaned_data.get('destino')
+        data_ida = self.cleaned_data.get('data_ida')
+        data_volta = self.cleaned_data.get('data_volta')
+        data_pesquisa = self.cleaned_data.get('data_pesquisa')
         lista_de_erros = {}
         campo_tem_algum_numero(origem, 'origem', lista_de_erros)
         campo_tem_algum_numero(destino, 'destino', lista_de_erros)
         origem_destino_iguais(origem, destino, lista_de_erros)
-        print(lista_de_erros)
+        verifica_data(data_ida, data_volta, data_pesquisa, lista_de_erros)
+        verifica_data_pesquisa(data_ida, data_volta, data_pesquisa, lista_de_erros)
         if lista_de_erros is not None:
             for erro in lista_de_erros:
                 mensagem_erro = lista_de_erros[erro]
