@@ -1,7 +1,7 @@
 from django import forms
 from tempus_dominus.widgets import DatePicker
 from datetime import datetime
-
+from .validation import campo_tem_algum_numero, origem_destino_iguais
 
 class PassagemForms(forms.Form):
     origem = forms.CharField(label='Origem', max_length=100, )
@@ -13,11 +13,19 @@ class PassagemForms(forms.Form):
     classe_voo = [('Primeira Classe', 'Primeira Classe'), ('Executiva', 'Executiva'), ('Econômica', 'Econômica')]
     escolha_classe = forms.ChoiceField(label='Classe de vôo ', widget=forms.Select(), choices=classe_voo, initial='Primeira Classe')
     informacoes = forms.CharField(label='Observações', max_length=200, widget=forms.Textarea(), required=False)
-    email = forms.EmailField(label='Email', max_length=150)
+    email = forms.EmailField(label='Email', max_length=150, required=False)
 
-    def clean_origem(self):
+    def clean(self):
         origem = self.cleaned_data.get('origem')
-        if any(char.isdigit() for char in origem):
-            raise forms.ValidationError('Origem inválida: Não incluir números')
-        else:
-            return origem
+        destino = self.cleaned_data.get('destino')
+        lista_de_erros = {}
+        campo_tem_algum_numero(origem, 'origem', lista_de_erros)
+        campo_tem_algum_numero(destino, 'destino', lista_de_erros)
+        origem_destino_iguais(origem, destino, lista_de_erros)
+        print(lista_de_erros)
+        if lista_de_erros is not None:
+            for erro in lista_de_erros:
+                mensagem_erro = lista_de_erros[erro]
+                self.add_error(erro, mensagem_erro)
+        return self.cleaned_data
+
