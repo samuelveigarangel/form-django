@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #Meus apps
-    'passagens.apps.PassagensConfig',
+    'apps.passagens.apps.PassagensConfig',
 
     #Apps terceiros
     'tempus_dominus',

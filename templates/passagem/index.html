@@ -7,7 +7,7 @@
         {% for field in form.visible_fields %}
         <div class="form-group">
             <label for="{{field.id_for_label}}">{{field.label}}</label>
-            {% if field.name != 'escolha_classe' %}
+            {% if field.name != 'classe_viagem' %}
             {{field|add_class:'form-control'}}
             {% else %}
             {{field|add_class:'form-select'}}

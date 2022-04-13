@@ -2,12 +2,21 @@ from django import forms
 from tempus_dominus.widgets import DatePicker
 from datetime import datetime
 from .validation import *
-from .models import Passagem, Pessoa, ClasseViagem
+from apps.passagens.models import Passagem, ClasseViagem, Pessoa
 
 class PassagemForms(forms.ModelForm):
+    data_pesquisa = forms.DateField(label='Data da pesquisa', disabled=True, initial=datetime.today)
+
     class Meta:
         model = Passagem
         fields = '__all__'
+        labels = {'data_ida': 'Data de ida', 'data_volta': 'Data de volta', 'informacoes': 'Informações',
+                  'classe_viagem': 'Classe do vôo'}
+        widgets = {
+            'data_ida': DatePicker(),
+            'data_volta': DatePicker()
+        }
+
 
     def clean(self):
         origem = self.cleaned_data.get('origem')
