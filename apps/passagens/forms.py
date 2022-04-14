@@ -4,6 +4,7 @@ from datetime import datetime
 from .validation import *
 from apps.passagens.models import Passagem, Pessoa
 
+
 class PassagemForms(forms.ModelForm):
     data_pesquisa = forms.DateField(label='Data da pesquisa', disabled=True, initial=datetime.today)
 
@@ -16,7 +17,6 @@ class PassagemForms(forms.ModelForm):
             'data_ida': DatePicker(),
             'data_volta': DatePicker()
         }
-
 
     def clean(self):
         origem = self.cleaned_data.get('origem')
@@ -36,7 +36,15 @@ class PassagemForms(forms.ModelForm):
                 self.add_error(erro, mensagem_erro)
         return self.cleaned_data
 
+
 class PessoaForms(forms.ModelForm):
     class Meta:
         model = Pessoa
         exclude = ['nome']
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        self.add_error('email', 'email invalido')
+        return self.cleaned_data
+
+
